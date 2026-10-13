@@ -3,56 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrueMargin Calculator</title>
+    <title>TrueMargin | Stop Guessing Your Prices</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* تصميم عصري ومريح للعين زي مواقع الـ SaaS العالمية */
+        /* إعدادات التصميم الأساسية */
         :root {
-            --primary: #4F46E5; /* لون أزرق احترافي */
+            --primary: #4F46E5;
             --primary-hover: #4338CA;
-            --bg: #F3F4F6;
-            --card-bg: #FFFFFF;
-            --text-main: #111827;
-            --text-muted: #6B7280;
-            --border: #D1D5DB;
+            --bg-light: #F9FAFB;
+            --text-dark: #111827;
+            --text-gray: #6B7280;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            scroll-behavior: smooth;
+        }
+
+        /* تصميم قسم الـ Hero (واجهة الصفحة) */
+        .hero {
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #C7D2FE;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.6;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+        }
+
+        .cta-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* تصميم قسم الآلة الحاسبة */
+        .calculator-section {
+            padding: 5rem 2rem;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
         }
 
         .calculator-card {
-            background-color: var(--card-bg);
-            padding: 2.5rem;
+            background-color: white;
+            padding: 3rem;
             border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
         }
 
-        .header {
+        .calculator-card h2 {
             text-align: center;
+            margin-top: 0;
             margin-bottom: 2rem;
-        }
-
-        .header h2 {
-            margin: 0;
-            color: var(--primary);
             font-size: 1.8rem;
-            letter-spacing: -0.5px;
-        }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 0.5rem;
         }
 
         .form-group {
@@ -70,11 +108,12 @@
         input {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 1px solid var(--border);
+            border: 1px solid #D1D5DB;
             border-radius: 8px;
             font-size: 1rem;
+            font-family: inherit;
             box-sizing: border-box;
-            transition: all 0.2s;
+            transition: border-color 0.2s;
         }
 
         input:focus {
@@ -83,34 +122,40 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
-        button {
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        button[type="submit"] {
             width: 100%;
-            padding: 0.875rem;
-            background-color: var(--primary);
+            padding: 1rem;
+            background-color: var(--text-dark);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
         }
 
-        button:hover {
-            background-color: var(--primary-hover);
+        button[type="submit"]:hover {
+            background-color: #374151;
         }
 
-        /* تنسيق مربع النتيجة اللي هيظهر بعد الحساب */
+        /* نتيجة الحساب */
         .result-box {
-            display: none; /* مخفي في البداية */
+            display: none;
             margin-top: 2rem;
             padding: 1.5rem;
-            background-color: #EEF2FF;
-            border: 1px solid #C7D2FE;
+            background-color: #ECFDF5;
+            border: 1px solid #A7F3D0;
             border-radius: 12px;
             text-align: center;
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeIn 0.5s ease-out;
         }
 
         @keyframes fadeIn {
@@ -118,89 +163,102 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .result-box h3 {
-            margin: 0 0 1rem 0;
-            color: #3730A3;
-            font-size: 1.1rem;
-        }
-
         .price-tag {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 800;
-            color: var(--primary);
+            color: #059669;
             margin: 0.5rem 0;
         }
 
-        .cost-tag {
-            font-size: 1rem;
-            color: #4B5563;
-            font-weight: 500;
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray);
+            font-size: 0.875rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="calculator-card">
-        <div class="header">
-            <h2>TrueMargin</h2>
-            <p>Stop guessing your prices. Know your exact profit in 3 seconds.</p>
-        </div>
+    <!-- قسم صفحة الهبوط -->
+    <section class="hero">
+        <h1>Price your work with <span>Confidence.</span></h1>
+        <p>Stop losing money on hidden costs. TrueMargin is the free tool used by smart freelancers to calculate exact profits and perfect selling prices in 3 seconds.</p>
+        <a href="#calculator" class="cta-btn">Calculate My Profit For Free</a>
+    </section>
 
-        <form id="pricingForm">
-            <div class="form-group">
-                <label>Product Name</label>
-                <input type="text" id="productName" required placeholder="e.g., Custom Website">
-            </div>
+    <!-- قسم الآلة الحاسبة -->
+    <section id="calculator" class="calculator-section">
+        <div class="calculator-card">
+            <h2>TrueMargin Calculator</h2>
             
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="email" required placeholder="To save your calculation">
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <!-- أضفنا خاصية name لكل حقل عشان نقدر نبعتها للإيميل -->
+            <form id="pricingForm">
                 <div class="form-group">
-                    <label>Direct Cost ($)</label>
-                    <input type="number" id="directCost" required min="0" step="0.01" placeholder="0.00">
+                    <label>Product / Service Name</label>
+                    <input type="text" id="productName" name="Product_Name" required placeholder="e.g., E-commerce Website">
                 </div>
+                
                 <div class="form-group">
-                    <label>Fixed Expenses ($)</label>
-                    <input type="number" id="fixedExpenses" required min="0" step="0.01" placeholder="0.00">
+                    <label>Email Address</label>
+                    <input type="email" id="email" name="Email_Address" required placeholder="Where should we send your reports?">
                 </div>
-            </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Direct Cost ($)</label>
+                        <input type="number" id="directCost" name="Direct_Cost" required min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Fixed Expenses ($)</label>
+                        <input type="number" id="fixedExpenses" name="Fixed_Expenses" required min="0" step="0.01" placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Time Spent (Hours)</label>
+                        <input type="number" id="timeSpent" name="Time_Spent" required min="0" step="0.5" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Hourly Rate ($)</label>
+                        <input type="number" id="hourlyRate" name="Hourly_Rate" required min="0" step="0.5" placeholder="0.00">
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label>Time Spent (Hours)</label>
-                    <input type="number" id="timeSpent" required min="0" step="0.5" placeholder="0">
+                    <label>Target Profit Margin (%)</label>
+                    <input type="number" id="targetProfit" name="Target_Profit_Margin" required min="0" max="99" step="1" placeholder="20">
                 </div>
-                <div class="form-group">
-                    <label>Hourly Rate ($)</label>
-                    <input type="number" id="hourlyRate" required min="0" step="0.5" placeholder="0.00">
-                </div>
+
+                <button type="submit" id="submitBtn">Calculate My True Price</button>
+            </form>
+
+            <div id="resultBox" class="result-box">
+                <div style="color: #065F46; font-weight: 600; margin-bottom: 0.5rem;">Recommended Selling Price</div>
+                <div class="price-tag">$<span id="resPrice">0.00</span></div>
+                <div style="font-size: 0.9rem; color: #047857;">Your True Cost is: $<span id="resCost">0.00</span></div>
             </div>
-
-            <div class="form-group">
-                <label>Target Profit Margin (%)</label>
-                <input type="number" id="targetProfit" required min="0" max="99" step="1" placeholder="20">
-            </div>
-
-            <button type="submit">Calculate My Profit</button>
-        </form>
-
-        <div id="resultBox" class="result-box">
-            <h3>Results for: <span id="resName"></span></h3>
-            <div class="cost-tag">True Cost: $<span id="resCost">0.00</span></div>
-            <div class="price-tag">$<span id="resPrice">0.00</span></div>
-            <div style="font-size: 0.85rem; color: #6B7280;">Recommended Selling Price</div>
         </div>
-    </div>
+    </section>
+
+    <footer>
+        &copy; 2026 TrueMargin. All rights reserved.
+    </footer>
 
     <script>
-        // برمجة المخ (الحسابات)
+        // ==========================================
+        // 💡 ضع رابط FORMSPREE الخاص بك هنا 💡
+        // ==========================================
+        const FORMSPREE_URL = "YOUR_LINK_HERE"; 
+        
         document.getElementById('pricingForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // دي اللي بتمنع الريفريش الرخم!
+            e.preventDefault(); // منع الريفريش
+            
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = "Calculating...";
 
-            // سحب الأرقام من الخانات
+            // 1. إجراء العمليات الحسابية
             const name = document.getElementById('productName').value;
             const directCost = parseFloat(document.getElementById('directCost').value) || 0;
             const fixedExpenses = parseFloat(document.getElementById('fixedExpenses').value) || 0;
@@ -208,21 +266,34 @@
             const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
             const targetProfit = parseFloat(document.getElementById('targetProfit').value) || 0;
 
-            // تطبيق المعادلات
             const trueCost = directCost + (timeSpent * hourlyRate) + fixedExpenses;
             let suggestedPrice = trueCost;
-            
             if (targetProfit > 0 && targetProfit < 100) {
                 suggestedPrice = trueCost / (1 - (targetProfit / 100));
             }
 
-            // عرض الأرقام في مربع النتيجة
-            document.getElementById('resName').textContent = name;
-            document.getElementById('resCost').textContent = trueCost.toFixed(2);
-            document.getElementById('resPrice').textContent = suggestedPrice.toFixed(2);
+            // 2. إرسال البيانات للإيميل في الخلفية (لو حطيت الرابط)
+            if (FORMSPREE_URL !== "YOUR_LINK_HERE" && FORMSPREE_URL.trim() !== "") {
+                const formData = new FormData(this);
+                // إضافة النتيجة اللي اتحسبت للداتا اللي هتتبعتلك على الإيميل
+                formData.append("Calculated_True_Cost", trueCost.toFixed(2));
+                formData.append("Calculated_Suggested_Price", suggestedPrice.toFixed(2));
 
-            // إظهار مربع النتيجة بحركة سلسة
-            document.getElementById('resultBox').style.display = 'block';
+                fetch(FORMSPREE_URL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }).catch(err => console.log("Formspree Error", err));
+            }
+
+            // 3. إظهار النتيجة للعميل فوراً
+            setTimeout(() => {
+                document.getElementById('resCost').textContent = trueCost.toFixed(2);
+                document.getElementById('resPrice').textContent = suggestedPrice.toFixed(2);
+                document.getElementById('resultBox').style.display = 'block';
+                btn.textContent = "Calculate My True Price";
+                btn.style.backgroundColor = "#059669"; // تغيير لون الزرار للأخضر كدليل للنجاح
+            }, 600); // تأخير بسيط جداً عشان يدي إحساس إن السيستم بيحسب
         });
     </script>
 </body>
